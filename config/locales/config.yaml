@@ -1,0 +1,34 @@
+system:
+  domain: meeshoo
+  version: 1.0
+  env: "dev"
+  HttpPort: ":5001"
+  Host: "127.0.0.1"
+  UploadModel: "local"
+
+kafka:
+  default:
+    debug: true
+    address: localhost:9092
+    requiredAck: -1 # 发送完数据后是否需要拿多少个副本确认 -1 需要全部
+    readTimeout: 30 # 默认30s
+    writeTimeout: 30 # 默认30s
+    maxOpenRequests: 5  # 在发送阻塞之前，允许有多少个未完成的请求，默认为5
+    partition: 2 # 分区生成方案 0根据topic进行hash、1随机、2轮询
+
+mysql:
+  default:
+    dialect: "mysql"
+    dbHost: "127.0.0.1"
+    dbPort: "3306"
+    dbName: "mall_db"
+    userName: "mall"
+    password: "123456"
+    charset: "utf8mb4"
+
+redis:
+  redisDbName: 4
+  redisHost: 127.0.0.1
+  redisPort: 6379
+  redisPassword: 123456
+  redisNetwork: "tcp"
