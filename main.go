@@ -1,9 +1,10 @@
 package main
 
 import (
-	"exercise/config"
-	"exercise/kafka"
-	"exercise/routes"
+	"myServer/config"
+	"myServer/kafka"
+	"myServer/log"
+	"myServer/routes"
 )
 
 func main() {
@@ -18,4 +19,8 @@ func main() {
 func loading() {
 	config.InitConfig()
 	kafka.InitKafka()
+	err := log.InitLogger()
+	if err != nil {
+		panic(err)
+	}
 }

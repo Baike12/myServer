@@ -2,14 +2,15 @@ package kafka
 
 import (
 	"context"
-	"exercise/config"
 	"fmt"
-	"log"
+	"myServer/config"
+	"myServer/log"
 	"strings"
 	"sync"
 	"time"
 
 	"github.com/Shopify/sarama"
+	"go.uber.org/zap"
 )
 
 type Kafka struct {
@@ -117,7 +118,7 @@ func SendMessagePartitionPar(ctx context.Context, key, topic, value, partitionKe
 	if err != nil {
 		return nil
 	}
-	log.Printf("send message success, partition:%s, offset: %d", partition, offset)
+	log.DebugLog("send message success", zap.Int32("partition", partition), zap.Int64("offset", offset))
 	return err
 }
 
@@ -135,27 +136,27 @@ func Consumer(ctx context.Context, key, topic string, fn func(msg *sarama.Consum
 	for _, partiotion := range partiotions {
 		offset, err := kafka.Client.GetOffset(topic, partiotion, sarama.OffsetNewest)
 		if err != nil {
-			log.Printf("get offset failed, err:", err)
+			log.InfoLog("get offset failed", zap.Error(err))
 			continue
 		}
 
 		cp, err := kafka.Consumer.ConsumePartition(topic, partiotion, offset)
 		if err != nil {
-			log.Printf("create partition consumer failed, err:", err)
+			log.InfoLog("create partition consumer failed", zap.Error(err))
 		}
 
 		// consume message
 		go func(c sarama.PartitionConsumer) {
 			defer func() {
 				if err := recover(); err != nil {
-					log.Printf("panic occurred while consuming kafka messages")
+					log.ErrorLog("panic occurred while consuming kafka messages")
 				}
 			}()
 
 			defer func() {
 				err := cp.Close()
 				if err != nil {
-					log.Printf("close PartitionConsumer failed, err:", err)
+					log.InfoLog("close PartitionConsumer failed:", zap.Error(err))
 				}
 			}()
 

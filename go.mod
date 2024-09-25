@@ -1,4 +1,4 @@
-module exercise
+module myServer
 
 go 1.22.6
 
@@ -7,6 +7,7 @@ require (
 	github.com/gin-contrib/sessions v1.0.1
 	github.com/gin-gonic/gin v1.10.0
 	github.com/spf13/viper v1.19.0
+	go.uber.org/zap v1.21.0
 )
 
 require (
