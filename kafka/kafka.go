@@ -176,3 +176,37 @@ func Consumer(ctx context.Context, key, topic string, fn func(msg *sarama.Consum
 
 	return nil
 }
+
+func SendMsgToKafka() {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	for i := range [10]int{} {
+		err := SendMessage(ctx, "broker1", "xiaojiao", fmt.Sprintf("hello world %d", i))
+		if err != nil {
+			log.ErrorLog("Failed to send message", zap.Error(err))
+		}
+	}
+}
+
+func ConsumeMsgFromKafka() {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	err := Consumer(ctx, "broker1", "xiaojiao", func(msg *sarama.ConsumerMessage) error {
+		fmt.Println("Received message: ", string(msg.Value))
+		log.InfoLog("consume message", zap.String("msg", string(msg.Value)))
+		return nil
+	})
+	if err != nil {
+		log.ErrorLog("Failed to start consumer", zap.Error(err))
+	}
+
+	select {}
+}
+
+func KafkaTest() {
+	SendMsgToKafka()
+	time.Sleep(time.Second * 1)
+	ConsumeMsgFromKafka()
+}

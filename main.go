@@ -1,6 +1,7 @@
 package main
 
 import (
+	"myServer/cache"
 	"myServer/config"
 	"myServer/kafka"
 	"myServer/log"
@@ -9,6 +10,8 @@ import (
 
 func main() {
 	loading()
+	// kafka.KafkaTest()
+	cache.RedisTest()
 	r := routes.NewRouter()
 	err := r.Run(config.Config.System.HttpPort)
 	if err != nil {
@@ -19,6 +22,7 @@ func main() {
 func loading() {
 	config.InitConfig()
 	kafka.InitKafka()
+	cache.InitCache()
 	err := log.InitLogger()
 	if err != nil {
 		panic(err)

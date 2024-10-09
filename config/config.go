@@ -11,6 +11,7 @@ var Config *Conf
 type Conf struct {
 	System *System               `yaml:"system"`
 	Kafka  map[string]*KafkaConf `yaml:"Kafka"`
+	Redis  *RedisConf            `yaml:"redis"`
 	// Mysql
 	// Redis
 }
@@ -33,6 +34,15 @@ type KafkaConf struct {
 	WriteTimeout    int64  `yaml:"writeTimeout"`
 	MaxOpenRequests int    `yaml:"maxOpenRequests"`
 	Partition       int    `yaml:"partition"`
+}
+
+type RedisConf struct {
+	RedisHost     string `yaml:"redisHost"`
+	RedisPort     string `yaml:"redisPort"`
+	RedisUsername string `yaml:"redisUsername"`
+	RedisPassword string `yaml:"redisPwd"`
+	RedisDbName   int    `yaml:"redisDbName"`
+	RedisNetwork  string `yaml:"redisNetwork"`
 }
 
 func InitConfig() {

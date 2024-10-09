@@ -7,9 +7,9 @@ system:
   UploadModel: "local"
 
 kafka:
-  default:
+  broker1:
     debug: true
-    address: localhost:9092
+    address: 127.0.0.1:9091
     requiredAck: -1 # 发送完数据后是否需要拿多少个副本确认 -1 需要全部
     readTimeout: 30 # 默认30s
     writeTimeout: 30 # 默认30s
@@ -30,5 +30,5 @@ redis:
   redisDbName: 4
   redisHost: 127.0.0.1
   redisPort: 6379
-  redisPassword: 123456
+  redisPassword: "db1x@NJ+1"
   redisNetwork: "tcp"
