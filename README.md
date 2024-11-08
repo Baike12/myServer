@@ -2,3 +2,4 @@
 - go对redis基础操作
 - go对mysql基础操作
 - go对kafka基础操作
+- gin框架基础应用
